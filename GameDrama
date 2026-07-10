@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎮 راهنمای ربات GameDrama</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* هدر */
+        .header {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 30px 40px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(78, 205, 196, 0.1), transparent 70%);
+            animation: headerGlow 8s ease-in-out infinite;
+        }
+        @keyframes headerGlow {
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(10%, 10%);
+            }
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+        .header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        .header .badge {
+            display: inline-block;
+            background: rgba(78, 205, 196, 0.2);
+            border: 1px solid #4ecdc4;
+            border-radius: 50px;
+            padding: 5px 20px;
+            font-size: 0.8rem;
+            color: #4ecdc4;
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* جستجو */
+        .search-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s;
+        }
+        .search-box:focus-within {
+            border-color: #4ecdc4;
+            box-shadow: 0 0 30px rgba(78, 205, 196, 0.1);
+        }
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .search-box .icon {
+            font-size: 1.2rem;
+        }
+
+        /* بخش‌ها - طراحی کارتی */
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        .section:hover {
+            border-color: rgba(78, 205, 196, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+        }
+        .section-header .left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .section-header .icon {
+            font-size: 2rem;
+            width: 55px;
+            height: 55px;
+            background: rgba(78, 205, 196, 0.15);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .section-header .title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        .section-header .subtitle {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .section-header .arrow {
+            font-size: 1.5rem;
+            transition: transform 0.4s ease;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .section.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* محتوای بخش */
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease, padding 0.4s ease;
+            opacity: 0;
+            padding: 0 10px;
+        }
+        .section.active .section-content {
+            max-height: 3000px;
+            opacity: 1;
+            padding: 20px 10px 5px 10px;
+        }
+
+        .section-content .cmd {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 12px 18px;
+            margin: 8px 0;
+            border-right: 3px solid #4ecdc4;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        .section-content .cmd:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .section-content .cmd .cmd-text {
+            font-family: 'Courier New', monospace;
+            color: #4ecdc4;
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 120px;
+        }
+        .section-content .cmd .cmd-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+        }
+        .section-content .cmd .cmd-example {
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 8px;
+            padding: 2px 12px;
+            font-size: 0.8rem;
+            color: #4ecdc4;
+            font-family: 'Courier New', monospace;
+            margin-left: auto;
+        }
+
+        .section-content .note {
+            background: rgba(255, 107, 107, 0.08);
+            border-radius: 12px;
+            padding: 12px 18px;
+            margin: 10px 0;
+            border-right: 3px solid #ff6b6b;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        .section-content .note strong {
+            color: #ff6b6b;
+        }
+
+        .section-content .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media (max-width: 700px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .section-header .title {
+                font-size: 1rem;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .section-content .cmd {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .section-content .cmd .cmd-example {
+                margin-left: 0;
+            }
+        }
+
+        /* فوتر */
+        .footer {
+            text-align: center;
+            padding: 30px 0 10px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.85rem;
+        }
+        .footer a {
+            color: #4ecdc4;
+            text-decoration: none;
+        }
+
+        /* دکمه بازگشت به بالا */
+        .back-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(78, 205, 196, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #4ecdc4;
+            cursor: pointer;
+            transition: all 0.3s;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .back-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-top:hover {
+            transform: scale(1.1);
+            background: rgba(78, 205, 196, 0.3);
+        }
+
+        /* منوی سریع */
+        .quick-menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        .quick-menu .item {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 15px;
+            padding: 10px 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .quick-menu .item:hover {
+            background: rgba(78, 205, 196, 0.15);
+            border-color: #4ecdc4;
+            color: #4ecdc4;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Header -->
+        <div class="header">
+            <h1>🎮 GameDrama</h1>
+            <p>راهنمای کامل ربات — هر آنچه باید بدانید</p>
+            <div class="badge">📌 نسخه ۳.۰ • به‌روزرسانی دی ۱۴۰۴</div>
+        </div>
+
+        <!-- منوی سریع -->
+        <div class="quick-menu">
+            <span class="item" onclick="scrollToSection('sec-start')">🚀 شروع</span>
+            <span class="item" onclick="scrollToSection('sec-money')">💰 پول</span>
+            <span class="item" onclick="scrollToSection('sec-miner')">⛏️ ماینر</span>
+            <span class="item" onclick="scrollToSection('sec-games')">🎲 بازی‌ها</span>
+            <span class="item" onclick="scrollToSection('sec-shop')">🛒 شاپ</span>
+            <span class="item" onclick="scrollToSection('sec-alliance')">⚔️ اتحادیه</span>
+            <span class="item" onclick="scrollToSection('sec-battlepass')">🎖️ بتل‌پس</span>
+            <span class="item" onclick="scrollToSection('sec-tiktok')">📱 تیک‌تاک</span>
+            <span class="item" onclick="scrollToSection('sec-other')">📌 سایر</span>
+        </div>
+
+        <!-- جستجو -->
+        <div class="search-box">
+            <span class="icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="جستجوی دستور یا توضیح..." oninput="searchHelp()" />
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- بخش‌ها -->
+        <!-- ============================================================ -->
+
+        <!-- ۱. شروع -->
+        <div class="section active" id="sec-start">
+            <div class="section-header" onclick="toggleSection(this)">
+                <div class="left">
+                    <div class="icon">🚀</div>
+                    <div>
+                        <div class="title">شروع کار</div>
+                        <div class="subtitle">اولین قدم‌ها</div>
+                    </div>
+                </div>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="cmd"><span class="cmd-text">فعال</span><span class="cmd-desc">فعال‌سازی ربات در گروه</span><span class="cmd-example">فعال</span></div>
+                <div class="cmd"><span class="cmd-text">راهنما</span><span class="cmd-desc">نمایش لینک راهنمای کامل</span><span class="cmd-example">راهنما</span></div>
+                <div class="cmd"><span class="cmd-text">موجودی</span><span class="cmd-desc">مشاهده پروفایل و موجودی خود</span><span class="cmd-example">موجودی</span></div>
+                <div class="cmd"><span class="cmd-text">لقب [نام]</span><span class="cmd-desc">تنظیم لقب برای خود (۳ تا ۲۰ کاراکتر)</span><span class="cmd-example">لقب سهراب</span></div>
+                <div class="cmd"><span class="cmd-text">موجودی @لقب</span><span class="cmd-desc">مشاهده پروفایل کاربر دیگر</span><span class="cmd-example">موجودی @سهراب</span></div>
+                <div class="note"><strong>💡 نکته:</strong> همه دستورات در پی‌وی ربات و گروه‌های فعال قابل استفاده هستند.</div>
+            </div>
+        </div>
+
+        <!-- ۲. پول -->
+        <div class="section" id="sec-money">
+            <div class="section-header" onclick="toggleSection(this)">
+                <div class="left">
+                    <div class="icon">💰</div>
+                    <div>
+                        <div class="title">مدیریت مالی</div>
+                        <div class="subtitle">کوین، بانک، الماس و انتقال</div>
+                    </div>
+                </div>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="cmd"><span class="cmd-text">گردونه</span><span class="cmd-desc">چرخاندن گردونه شانس (روزانه ۱ بار)</span><span class="cmd-example">گردونه</span></div>
+                <div class="cmd"><span class="cmd-text">انتقال [مبلغ] @لقب</span><span class="cmd-desc">انتقال کوین به کاربر دیگر</span><span class="cmd-example">انتقال ۱۰۰۰۰۰ @سهراب</span></div>
+                <div class="cmd"><span class="cmd-text">انتقال الماس [تعداد] @لقب</span><span class="cmd-desc">انتقال الماس به کاربر دیگر</span><span class="cmd-example">انتقال الماس ۵ @سهراب</span></div>
+                <div class="cmd"><span class="cmd-text">انتقال ماینر [تعداد] @لقب</span><span class="cmd-desc">انتقال ماینر به کاربر دیگر</span><span class="cmd-example">انتقال ماینر ۱۰ @سهراب</span></div>
+                <div class="cmd"><span class="cmd-text">واریز [مبلغ]</span><span class="cmd-desc">واریز کوین به بانک</span><span class="cmd-example">واریز ۵۰۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">برداشت [مبلغ]</span><span class="cmd-desc">برداشت کوین از بانک</span><span class="cmd-example">برداشت ۱۰۰۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">الماس</span><span class="cmd-desc">مشاهده قیمت الماس و موجودی</span><span class="cmd-example">الماس</span></div>
+                <div class="cmd"><span class="cmd-text">خرید الماس [تعداد]</span><span class="cmd-desc">خرید الماس با کوین</span><span class="cmd-example">خرید الماس ۱۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">فروش الماس [تعداد]</span><span class="cmd-desc">فروش الماس و دریافت کوین</span><span class="cmd-example">فروش الماس ۵۰</span></div>
+                <div class="note"><strong>📊 نکته:</strong> قیمت الماس هر ۱ ساعت تغییر می‌کند. سود بانک روزانه ۱۰٪ است.</div>
+            </div>
+        </div>
+
+        <!-- ۳. ماینر -->
+        <div class="section" id="sec-miner">
+            <div class="section-header" onclick="toggleSection(this)">
+                <div class="left">
+                    <div class="icon">⛏️</div>
+                    <div>
+                        <div class="title">ماینرها</div>
+                        <div class="subtitle">درآمد غیرفعال</div>
+                    </div>
+                </div>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="cmd"><span class="cmd-text">ماینر</span><span class="cmd-desc">مشاهده آمار ماینرها</span><span class="cmd-example">ماینر</span></div>
+                <div class="cmd"><span class="cmd-text">ارتقا ماینر [تعداد]</span><span class="cmd-desc">خرید ماینر جدید</span><span class="cmd-example">ارتقا ماینر ۱۰</span></div>
+                <div class="cmd"><span class="cmd-text">ارتقا ماینر حداکثر</span><span class="cmd-desc">خرید تا جایی که پول دارید</span><span class="cmd-example">ارتقا ماینر حداکثر</span></div>
+                <div class="cmd"><span class="cmd-text">جمع ماینر</span><span class="cmd-desc">جمع‌آوری درآمد ماینرها</span><span class="cmd-example">جمع ماینر</span></div>
+                <div class="cmd"><span class="cmd-text">پروفیت</span><span class="cmd-desc">مشاهده درآمد روزانه، هفتگی و ماهانه</span><span class="cmd-example">پروفیت</span></div>
+                <div class="note"><strong>⏳ نکته:</strong> هر ماینر ۲,۰۰۰ کوین در ساعت درآمد دارد. قیمت هر ماینر = شماره ماینر × ۱۰,۰۰۰</div>
+            </div>
+        </div>
+
+        <!-- ۴. بازی‌ها -->
+        <div class="section" id="sec-games">
+            <div class="section-header" onclick="toggleSection(this)">
+                <div class="left">
+                    <div class="icon">🎲</div>
+                    <div>
+                        <div class="title">بازی‌ها</div>
+                        <div class="subtitle">برد و باخت هیجان‌انگیز</div>
+                    </div>
+                </div>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="cmd"><span class="cmd-text">تاس [مبلغ]</span><span class="cmd-desc">بازی تاس با ربات</span><span class="cmd-example">تاس ۱۰۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">اسلات [مبلغ]</span><span class="cmd-desc">بازی اسلات با ضریب‌های مختلف</span><span class="cmd-example">اسلات ۵۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">سنگ [مبلغ]</span><span class="cmd-desc">سنگ کاغذ قیچی</span><span class="cmd-example">سنگ ۲۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">کاغذ [مبلغ]</span><span class="cmd-desc">سنگ کاغذ قیچی</span><span class="cmd-example">کاغذ ۲۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">قیچی [مبلغ]</span><span class="cmd-desc">سنگ کاغذ قیچی</span><span class="cmd-example">قیچی ۲۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">گل یا پوچ [مبلغ]</span><span class="cmd-desc">بازی گل یا پوچ</span><span class="cmd-example">گل یا پوچ ۱۰۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">شیر یا خط [مبلغ]</span><span class="cmd-desc">بازی شیر یا خط</span><span class="cmd-example">شیر یا خط ۵۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">رولت [مبلغ]</span><span class="cmd-desc">بازی رولت اروپایی (زوج/فرد)</span><span class="cmd-example">رولت ۷۵۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">زوج [مبلغ]</span><span class="cmd-desc">حدس زوج بودن عدد ۱-۱۰۰</span><span class="cmd-example">زوج ۳۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">فرد [مبلغ]</span><span class="cmd-desc">حدس فرد بودن عدد ۱-۱۰۰</span><span class="cmd-example">فرد ۳۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">تاس دوتایی</span><span class="cmd-desc">بازی ویژه با جایزه ۲۰ میلیون (هزینه ۲ میلیون)</span><span class="cmd-example">تاس دوتایی</span></div>
+                <div class="cmd"><span class="cmd-text">تاس دوتایی بیار</span><span class="cmd-desc">همون بازی تاس دوتایی</span><span class="cmd-example">تاس دوتایی بیار</span></div>
+                <div class="note"><strong>🎯 نکته:</strong> برای بازی تاس دوتایی باید حداقل ۲ میلیون کوین داشته باشید.</div>
+            </div>
+        </div>
+
+        <!-- ۵. شاپ -->
+        <div class="section" id="sec-shop">
+            <div class="section-header" onclick="toggleSection(this)">
+                <div class="left">
+                    <div class="icon">🛒</div>
+                    <div>
+                        <div class="title">شاپ و وسایل</div>
+                        <div class="subtitle">خرید، فروش و بازار</div>
+                    </div>
+                </div>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="cmd"><span class="cmd-text">ماشین ها</span><span class="cmd-desc">لیست ماشین‌های قابل خرید</span><span class="cmd-example">ماشین ها</span></div>
+                <div class="cmd"><span class="cmd-text">خرید ماشین [نام]</span><span class="cmd-desc">خرید ماشین</span><span class="cmd-example">خرید ماشین دوج چلنجر</span></div>
+                <div class="cmd"><span class="cmd-text">خانه ها / گوشی ها / موتور ها / قایق ها / هواپیما ها</span><span class="cmd-desc">لیست وسایل قابل خرید</span><span class="cmd-example">گوشی ها</span></div>
+                <div class="cmd"><span class="cmd-text">وسایل من</span><span class="cmd-desc">مشاهده تمام وسایل خریداری شده</span><span class="cmd-example">وسایل من</span></div>
+                <div class="cmd"><span class="cmd-text">فروش [نوع] [نام] [قیمت]</span><span class="cmd-desc">قرار دادن وسیله در بازار</span><span class="cmd-example">فروش ماشین دوج چلنجر ۴۰۰۰۰۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">بازار</span><span class="cmd-desc">مشاهده وسایل فروشی</span><span class="cmd-example">بازار</span></div>
+                <div class="cmd"><span class="cmd-text">خرید [کد]</span><span class="cmd-desc">خرید از بازار با کد آگهی</span><span class="cmd-example">خرید ۱۲</span></div>
+                <div class="cmd"><span class="cmd-text">فروش من</span><span class="cmd-desc">مشاهده آگهی‌های خود</span><span class="cmd-example">فروش من</span></div>
+                <div class="cmd"><span class="cmd-text">حذف [کد]</span><span class="cmd-desc">حذف آگهی خود از بازار</span><span class="cmd-example">حذف ۱۲</span></div>
+                <div class="note"><strong>💡 نکته:</strong> با خرید گوشی می‌توانید در تیک‌تاک فعالیت کنید.</div>
+            </div>
+        </div>
+
+        <!-- ۶. شغل -->
+        <div class="section" id="sec-job">
+            <div class="section-header" onclick="toggleSection(this)">
+                <div class="left">
+                    <div class="icon">💼</div>
+                    <div>
+                        <div class="title">شغل‌ها</div>
+                        <div class="subtitle">درآمد روزانه</div>
+                    </div>
+                </div>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="cmd"><span class="cmd-text">شغل ها</span><span class="cmd-desc">لیست مشاغل و حقوق آنها</span><span class="cmd-example">شغل ها</span></div>
+                <div class="cmd"><span class="cmd-text">درخواست شغل [نام]</span><span class="cmd-desc">خرید شغل</span><span class="cmd-example">درخواست شغل مهندس</span></div>
+                <div class="cmd"><span class="cmd-text">عوض شغل [نام]</span><span class="cmd-desc">تغییر شغل فعلی</span><span class="cmd-example">عوض شغل هکر</span></div>
+                <div class="cmd"><span class="cmd-text">حقوق بگیر</span><span class="cmd-desc">دریافت حقوق روزانه</span><span class="cmd-example">حقوق بگیر</span></div>
+                <div class="note"><strong>⏰ نکته:</strong> حقوق هر ۲۴ ساعت یک بار قابل دریافت است.</div>
+            </div>
+        </div>
+
+        <!-- ۷. اتحادیه -->
+        <div class="section" id="sec-alliance">
+            <div class="section-header" onclick="toggleSection(this)">
+                <div class="left">
+                    <div class="icon">⚔️</div>
+                    <div>
+                        <div class="title">اتحادیه</div>
+                        <div class="subtitle">جنگ و همکاری</div>
+                    </div>
+                </div>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="cmd"><span class="cmd-text">ساخت اتحاد [نام]</span><span class="cmd-desc">ساخت اتحادیه (هزینه ۲۰۰ میلیون)</span><span class="cmd-example">ساخت اتحاد قهرمانان</span></div>
+                <div class="cmd"><span class="cmd-text">لیست اتحادیه</span><span class="cmd-desc">مشاهده تمام اتحادیه‌ها</span><span class="cmd-example">لیست اتحادیه</span></div>
+                <div class="cmd"><span class="cmd-text">عضویت در اتحاد [کد]</span><span class="cmd-desc">درخواست عضویت</span><span class="cmd-example">عضویت در اتحاد ABC123</span></div>
+                <div class="cmd"><span class="cmd-text">لیست درخواست</span><span class="cmd-desc">مشاهده درخواست‌های عضویت (لیدر/معاون)</span><span class="cmd-example">لیست درخواست</span></div>
+                <div class="cmd"><span class="cmd-text">تایید درخواست @لقب</span><span class="cmd-desc">تایید عضویت (لیدر/معاون)</span><span class="cmd-example">تایید درخواست @سهراب</span></div>
+                <div class="cmd"><span class="cmd-text">ارتقا معاون @لقب</span><span class="cmd-desc">انتخاب معاون (فقط لیدر)</span><span class="cmd-example">ارتقا معاون @سهراب</span></div>
+                <div class="cmd"><span class="cmd-text">ارتقا اتحاد [سطح]</span><span class="cmd-desc">ارتقا سطح اتحادیه (تا ۱۰)</span><span class="cmd-example">ارتقا اتحاد ۳</span></div>
+                <div class="cmd"><span class="cmd-text">ارتقا اتحاد از خزانه [سطح]</span><span class="cmd-desc">ارتقا با هزینه از خزانه</span><span class="cmd-example">ارتقا اتحاد از خزانه ۳</span></div>
+                <div class="cmd"><span class="cmd-text">واریز به خزانه [مبلغ]</span><span class="cmd-desc">واریز کوین به خزانه</span><span class="cmd-example">واریز به خزانه ۵۰۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">خرید مهمات [نام] [تعداد]</span><span class="cmd-desc">خرید موشک یا بمب برای حمله</span><span class="cmd-example">خرید مهمات موشک بالستیک ۱۰</span></div>
+                <div class="cmd"><span class="cmd-text">حمله به [کد]</span><span class="cmd-desc">حمله به اتحادیه دیگر (لیدر/معاون)</span><span class="cmd-example">حمله به XYZ789</span></div>
+                <div class="cmd"><span class="cmd-text">بازیابی [درصد]</span><span class="cmd-desc">بازیابی سلامت اتحادیه (۱٪ = ۵ میلیون)</span><span class="cmd-example">بازیابی ۲۰</span></div>
+                <div class="cmd"><span class="cmd-text">اطلاعات اتحاد [کد]</span><span class="cmd-desc">مشاهده اطلاعات کامل اتحادیه</span><span class="cmd-example">اطلاعات اتحاد ABC123</span></div>
+                <div class="cmd"><span class="cmd-text">خزانه اتحادیه</span><span class="cmd-desc">مشاهده موجودی خزانه</span><span class="cmd-example">خزانه اتحادیه</span></div>
+                <div class="note"><strong>⚔️ نکته:</strong> هر سطح اتحادیه ظرفیت ۵ عضو اضافه می‌کند. قدرت حمله = موشک×۵ + بمب×۱۰۰</div>
+            </div>
+        </div>
+
+        <!-- ۸. بتل‌پس -->
+        <div class="section" id="sec-battlepass">
+            <div class="section-header" onclick="toggleSection(this)">
+                <div class="left">
+                    <div class="icon">🎖️</div>
+                    <div>
+                        <div class="title">بتل‌پس</div>
+                        <div class="subtitle">جوایز و ماموریت‌ها</div>
+                    </div>
+                </div>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="cmd"><span class="cmd-text">بتل پس</span><span class="cmd-desc">مشاهده سطح، XP و جوایز</span><span class="cmd-example">بتل پس</span></div>
+                <div class="cmd"><span class="cmd-text">جایزه سطوح</span><span class="cmd-desc">مشاهده جوایز هر سطح</span><span class="cmd-example">جایزه سطوح</span></div>
+                <div class="cmd"><span class="cmd-text">دریافت جایزه [سطح]</span><span class="cmd-desc">دریافت جایزه یک سطح (فقط زوج)</span><span class="cmd-example">دریافت جایزه ۱۰</span></div>
+                <div class="cmd"><span class="cmd-text">دریافت همه</span><span class="cmd-desc">دریافت تمام جوایز قابل دریافت</span><span class="cmd-example">دریافت همه</span></div>
+                <div class="cmd"><span class="cmd-text">ماموریت ها</span><span class="cmd-desc">مشاهده ماموریت‌ها و XP هر کدام</span><span class="cmd-example">ماموریت ها</span></div>
+                <div class="cmd"><span class="cmd-text">ویژه [کد]</span><span class="cmd-desc">فعال‌سازی بتل‌پس پریمیوم</span><span class="cmd-example">ویژه PREMIUM123</span></div>
+                <div class="note"><strong>🎁 نکته:</strong> سطوح زوج جایزه دارند. پریمیوم جوایز ۲ برابری دارد.</div>
+            </div>
+        </div>
+
+        <!-- ۹. تیک‌تاک -->
+        <div class="section" id="sec-tiktok">
+            <div class="section-header" onclick="toggleSection(this)">
+                <div class="left">
+                    <div class="icon">📱</div>
+                    <div>
+                        <div class="title">تیک‌تاک</div>
+                        <div class="subtitle">شبکه اجتماعی مجازی</div>
+                    </div>
+                </div>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="cmd"><span class="cmd-text">لیست نت ها</span><span class="cmd-desc">مشاهده بسته‌های اینترنت</span><span class="cmd-example">لیست نت ها</span></div>
+                <div class="cmd"><span class="cmd-text">خرید نت [حجم]</span><span class="cmd-desc">خرید اینترنت برای تیک‌تاک</span><span class="cmd-example">خرید نت ۵ گیگ</span></div>
+                <div class="cmd"><span class="cmd-text">ساخت کانال تیک تاک [نام]</span><span class="cmd-desc">ساخت کانال (نیاز به گوشی)</span><span class="cmd-example">ساخت کانال تیک تاک my_channel</span></div>
+                <div class="cmd"><span class="cmd-text">تغییر اسم تیک تاک [نام]</span><span class="cmd-desc">تغییر نام کانال</span><span class="cmd-example">تغییر اسم تیک تاک new_name</span></div>
+                <div class="cmd"><span class="cmd-text">پست [عنوان]</span><span class="cmd-desc">انتشار پست (هر ۲۰ دقیقه ۱ بار)</span><span class="cmd-example">پست گیم</span></div>
+                <div class="cmd"><span class="cmd-text">آمار تیک تاک</span><span class="cmd-desc">مشاهده آمار کانال و پست‌ها</span><span class="cmd-example">آمار تیک تاک</span></div>
+                <div class="cmd"><span class="cmd-text">آمار نت</span><span class="cmd-desc">مشاهده وضعیت اینترنت</span><span class="cmd-example">آمار نت</span></div>
+                <div class="note"><strong>📡 نکته:</strong> عناوین موجود: ورزش، گیم، فیلم، آموزش ادیت. هرچه پست بیشتر، فالوور و درآمد بیشتر.</div>
+            </div>
+        </div>
+
+        <!-- ۱۰. سایر -->
+        <div class="section" id="sec-other">
+            <div class="section-header" onclick="toggleSection(this)">
+                <div class="left">
+                    <div class="icon">📌</div>
+                    <div>
+                        <div class="title">سایر دستورات</div>
+                        <div class="subtitle">کدها، رتبه‌بندی و...</div>
+                    </div>
+                </div>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="cmd"><span class="cmd-text">کد [کد]</span><span class="cmd-desc">استفاده از کد هدیه</span><span class="cmd-example">کد GIFT1234</span></div>
+                <div class="cmd"><span class="cmd-text">کد معرف</span><span class="cmd-desc">مشاهده کد معرف خود</span><span class="cmd-example">کد معرف</span></div>
+                <div class="cmd"><span class="cmd-text">معرف [کد]</span><span class="cmd-desc">استفاده از کد معرف (پاداش ۱ میلیون)</span><span class="cmd-example">معرف ۱۲۳۴۵۶</span></div>
+                <div class="cmd"><span class="cmd-text">پولداران</span><span class="cmd-desc">لیست ۱۰ ثروتمند برتر</span><span class="cmd-example">پولداران</span></div>
+                <div class="cmd"><span class="cmd-text">ماینر داران</span><span class="cmd-desc">لیست ۱۰ ماینردار برتر</span><span class="cmd-example">ماینر داران</span></div>
+                <div class="cmd"><span class="cmd-text">الماس داران</span><span class="cmd-desc">لیست ۱۰ الماس‌دار برتر</span><span class="cmd-example">الماس داران</span></div>
+                <div class="cmd"><span class="cmd-text">برترین دعوت کنندگان</span><span class="cmd-desc">لیست ۱۰ برترین دعوت‌کننده‌ها</span><span class="cmd-example">برترین دعوت کنندگان</span></div>
+                <div class="cmd"><span class="cmd-text">برترین بردها</span><span class="cmd-desc">لیست ۱۰ برترین برندگان بازی</span><span class="cmd-example">برترین بردها</span></div>
+                <div class="cmd"><span class="cmd-text">شاپ</span><span class="cmd-desc">مشاهده پکیج‌های فروش ویژه</span><span class="cmd-example">شاپ</span></div>
+                <div class="cmd"><span class="cmd-text">سازنده [کد]</span><span class="cmd-desc">فعال‌سازی کد بینهایت</span><span class="cmd-example">سازنده INFINITY</span></div>
+                <div class="cmd"><span class="cmd-text">بانک</span><span class="cmd-desc">مشاهده موجودی بانک</span><span class="cmd-example">بانک</span></div>
+            </div>
+        </div>
+
+        <!-- فوتر -->
+        <div class="footer">
+            <p>🎮 ربات GameDrama | <a href="https://rubika.ir/GameDrama" target="_blank">@GameDrama</a></p>
+            <p>کانال: <a href="https://rubika.ir/Alpha_Bots" target="_blank">@Alpha_Bots</a> | سازنده: <a href="https://rubika.ir/HI_IM_SUHO" target="_blank">@HI_IM_SUHO</a></p>
+        </div>
+
+    </div>
+
+    <!-- دکمه بازگشت به بالا -->
+    <div class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆</div>
+
+    <script>
+        // ==============================
+        //  باز/بسته کردن بخش‌ها
+        // ==============================
+        function toggleSection(headerElement) {
+            const section = headerElement.closest('.section');
+            section.classList.toggle('active');
+        }
+
+        // ==============================
+        //  اسکرول به بخش با id
+        // ==============================
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                el.classList.add('active');
+            }
+        }
+
+        // ==============================
+        //  جستجو
+        // ==============================
+        function searchHelp() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const sections = document.querySelectorAll('.section');
+            if (!query) {
+                sections.forEach(s => s.style.display = '');
+                return;
+            }
+            sections.forEach(section => {
+                const text = section.innerText.toLowerCase();
+                section.style.display = text.includes(query) ? '' : 'none';
+                if (text.includes(query)) {
+                    section.classList.add('active');
+                }
+            });
+        }
+
+        // ==============================
+        //  دکمه بازگشت به بالا
+        // ==============================
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('backTop');
+            if (window.scrollY > 400) {
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+        });
+
+        console.log('🎮 راهنمای GameDrama بارگذاری شد!');
+    </script>
+</body>
+</html>
