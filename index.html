@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🎮 راهنمای ربات GameDrama</title>
+    <title>🌌 راهنمای ربات GameDrama</title>
     <style>
         * {
             margin: 0;
@@ -13,91 +13,181 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background: #0a0a1a;
             min-height: 100vh;
             color: #fff;
             padding: 20px;
+            overflow-x: hidden;
         }
+
+        /* کهکشان ساده و سبک */
+        .galaxy-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -2;
+            background:
+                radial-gradient(ellipse at 20% 30%, rgba(255, 0, 150, 0.15), transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 200, 255, 0.12), transparent 45%),
+                radial-gradient(ellipse at 50% 60%, rgba(168, 85, 247, 0.2), transparent 55%),
+                radial-gradient(ellipse at 30% 80%, rgba(255, 200, 0, 0.08), transparent 40%),
+                #0a0a1a;
+        }
+
+        /* ستاره‌ها با CSS ساده (بدون انیمیشن سنگین) */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 20% 60%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 30% 10%, rgba(255, 255, 255, 0.7), transparent),
+                radial-gradient(1px 1px at 40% 80%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(1px 1px at 50% 30%, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 60% 70%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 70% 15%, rgba(255, 255, 255, 0.7), transparent),
+                radial-gradient(1px 1px at 80% 50%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(1px 1px at 90% 85%, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 15% 90%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 45% 45%, rgba(255, 255, 255, 0.7), transparent),
+                radial-gradient(1px 1px at 75% 35%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 55% 95%, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 25% 40%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(1px 1px at 85% 65%, rgba(255, 255, 255, 0.7), transparent);
+            background-size: 300px 300px;
+        }
+
         .container {
             max-width: 1100px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
-        /* هدر */
+        /* هدر ساده و سبک */
         .header {
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(15px);
             border-radius: 30px;
             padding: 30px 40px;
             margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             text-align: center;
             position: relative;
             overflow: hidden;
         }
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(78, 205, 196, 0.1), transparent 70%);
-            animation: headerGlow 8s ease-in-out infinite;
+
+        .header .medal {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            animation: medalFloat 3s ease-in-out infinite;
         }
-        @keyframes headerGlow {
+        @keyframes medalFloat {
             0%,
             100% {
-                transform: translate(0, 0);
+                transform: translateY(0);
             }
             50% {
-                transform: translate(10%, 10%);
+                transform: translateY(-8px);
             }
         }
+
         .header h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #4ecdc4, #45b7d1, #ff6b6b);
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #4ecdc4, #a855f7, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             position: relative;
             z-index: 1;
+            letter-spacing: 3px;
         }
-        .header p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
-            margin-top: 10px;
+
+        .header .sub {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 1rem;
+            margin-top: 6px;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 2px;
+        }
+
+        .header .bot-info {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 15px;
+            flex-wrap: wrap;
             position: relative;
             z-index: 1;
         }
-        .header .badge {
-            display: inline-block;
-            background: rgba(78, 205, 196, 0.2);
-            border: 1px solid #4ecdc4;
+        .header .bot-info span {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 50px;
-            padding: 5px 20px;
-            font-size: 0.8rem;
+            padding: 6px 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .header .bot-info a {
+            color: #a855f7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .header .bot-info a:hover {
             color: #4ecdc4;
-            margin-top: 10px;
-            position: relative;
-            z-index: 1;
+        }
+
+        /* دکمه‌های منو */
+        .quick-menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        .quick-menu .item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 10px 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .quick-menu .item:hover {
+            background: rgba(168, 85, 247, 0.12);
+            border-color: rgba(168, 85, 247, 0.2);
+            color: #fff;
+            transform: translateY(-2px);
         }
 
         /* جستجو */
         .search-box {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
             border-radius: 20px;
             padding: 15px 25px;
             margin-bottom: 30px;
             display: flex;
             align-items: center;
             gap: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
         }
         .search-box:focus-within {
-            border-color: #4ecdc4;
-            box-shadow: 0 0 30px rgba(78, 205, 196, 0.1);
+            border-color: #a855f7;
         }
         .search-box input {
             flex: 1;
@@ -108,35 +198,38 @@
             outline: none;
         }
         .search-box input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.2);
         }
         .search-box .icon {
             font-size: 1.2rem;
         }
 
-        /* بخش‌ها - طراحی کارتی */
+        /* بخش‌ها */
         .section {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
             border-radius: 25px;
             padding: 25px;
             margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
         .section:hover {
-            border-color: rgba(78, 205, 196, 0.3);
+            border-color: rgba(168, 85, 247, 0.12);
             transform: translateY(-2px);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
+
         .section-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             user-select: none;
+            position: relative;
+            z-index: 1;
         }
         .section-header .left {
             display: flex;
@@ -147,40 +240,43 @@
             font-size: 2rem;
             width: 55px;
             height: 55px;
-            background: rgba(78, 205, 196, 0.15);
+            background: rgba(168, 85, 247, 0.06);
             border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            border: 1px solid rgba(168, 85, 247, 0.04);
         }
         .section-header .title {
             font-size: 1.3rem;
             font-weight: 700;
+            background: linear-gradient(135deg, #4ecdc4, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .section-header .subtitle {
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.25);
         }
         .section-header .arrow {
             font-size: 1.5rem;
             transition: transform 0.4s ease;
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.1);
         }
         .section.active .arrow {
             transform: rotate(180deg);
         }
 
-        /* محتوای بخش */
         .section-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease, padding 0.4s ease;
+            transition: max-height 0.5s ease, opacity 0.4s ease, padding 0.4s ease;
             opacity: 0;
             padding: 0 10px;
         }
         .section.active .section-content {
-            max-height: 3000px;
+            max-height: 4000px;
             opacity: 1;
             padding: 20px 10px 5px 10px;
         }
@@ -189,66 +285,62 @@
             background: rgba(0, 0, 0, 0.3);
             border-radius: 12px;
             padding: 12px 18px;
-            margin: 8px 0;
-            border-right: 3px solid #4ecdc4;
+            margin: 6px 0;
+            border-right: 3px solid #a855f7;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 10px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
         .section-content .cmd:hover {
             background: rgba(0, 0, 0, 0.5);
+            border-right-color: #4ecdc4;
         }
         .section-content .cmd .cmd-text {
             font-family: 'Courier New', monospace;
             color: #4ecdc4;
             font-weight: 600;
-            font-size: 1rem;
-            min-width: 120px;
+            font-size: 0.95rem;
+            min-width: 150px;
         }
         .section-content .cmd .cmd-desc {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.95rem;
         }
         .section-content .cmd .cmd-example {
-            background: rgba(78, 205, 196, 0.1);
+            background: rgba(168, 85, 247, 0.06);
             border-radius: 8px;
             padding: 2px 12px;
             font-size: 0.8rem;
-            color: #4ecdc4;
+            color: #f472b6;
             font-family: 'Courier New', monospace;
             margin-left: auto;
+            border: 1px solid rgba(168, 85, 247, 0.04);
+        }
+        .section-content .cmd .cmd-example .highlight {
+            color: #fbbf24;
         }
 
         .section-content .note {
-            background: rgba(255, 107, 107, 0.08);
+            background: rgba(168, 85, 247, 0.04);
             border-radius: 12px;
             padding: 12px 18px;
             margin: 10px 0;
-            border-right: 3px solid #ff6b6b;
-            color: rgba(255, 255, 255, 0.7);
+            border-right: 3px solid #f472b6;
+            color: rgba(255, 255, 255, 0.45);
             font-size: 0.9rem;
         }
         .section-content .note strong {
-            color: #ff6b6b;
-        }
-
-        .section-content .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            color: #f472b6;
         }
 
         @media (max-width: 700px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
             .section-header .title {
                 font-size: 1rem;
             }
             .header h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             .section-content .cmd {
                 flex-direction: column;
@@ -257,28 +349,44 @@
             .section-content .cmd .cmd-example {
                 margin-left: 0;
             }
+            .section-content .cmd .cmd-text {
+                min-width: auto;
+            }
+            .quick-menu .item {
+                padding: 7px 14px;
+                font-size: 0.8rem;
+            }
+            .header .bot-info {
+                gap: 10px;
+            }
+            .header .bot-info span {
+                font-size: 0.7rem;
+                padding: 4px 12px;
+            }
         }
 
-        /* فوتر */
         .footer {
             text-align: center;
-            padding: 30px 0 10px;
-            color: rgba(255, 255, 255, 0.3);
+            padding: 40px 0 10px;
+            color: rgba(255, 255, 255, 0.1);
             font-size: 0.85rem;
         }
         .footer a {
             color: #4ecdc4;
             text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer a:hover {
+            color: #f472b6;
         }
 
-        /* دکمه بازگشت به بالا */
         .back-top {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background: rgba(78, 205, 196, 0.2);
+            background: rgba(168, 85, 247, 0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(78, 205, 196, 0.3);
+            border: 1px solid rgba(168, 85, 247, 0.1);
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -286,11 +394,12 @@
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            color: #4ecdc4;
+            color: #a855f7;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             opacity: 0;
             visibility: hidden;
+            z-index: 999;
         }
         .back-top.visible {
             opacity: 1;
@@ -298,44 +407,27 @@
         }
         .back-top:hover {
             transform: scale(1.1);
-            background: rgba(78, 205, 196, 0.3);
-        }
-
-        /* منوی سریع */
-        .quick-menu {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 30px;
-            justify-content: center;
-        }
-        .quick-menu .item {
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 15px;
-            padding: 10px 20px;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .quick-menu .item:hover {
-            background: rgba(78, 205, 196, 0.15);
-            border-color: #4ecdc4;
-            color: #4ecdc4;
-            transform: translateY(-2px);
+            background: rgba(168, 85, 247, 0.2);
         }
     </style>
 </head>
 <body>
 
+    <!-- کهکشان -->
+    <div class="galaxy-bg"></div>
+    <div class="stars"></div>
+
     <div class="container">
 
         <!-- Header -->
         <div class="header">
-            <h1>🎮 GameDrama</h1>
-            <p>راهنمای کامل ربات — هر آنچه باید بدانید</p>
-            <div class="badge">📌 نسخه ۳.۰ • به‌روزرسانی دی ۱۴۰۴</div>
+            <span class="medal">🥇</span>
+            <h1>GameDrama</h1>
+            <div class="sub">🌌 راهنمای کامل ربات</div>
+            <div class="bot-info">
+                <span>🤖 ربات: <a href="https://rubika.ir/GameDrama_Bot" target="_blank">@GameDrama_Bot</a></span>
+                <span>📢 کانال: <a href="https://rubika.ir/GameDrama_Bots" target="_blank">@GameDrama_Bots</a></span>
+            </div>
         </div>
 
         <!-- منوی سریع -->
@@ -348,7 +440,6 @@
             <span class="item" onclick="scrollToSection('sec-alliance')">⚔️ اتحادیه</span>
             <span class="item" onclick="scrollToSection('sec-battlepass')">🎖️ بتل‌پس</span>
             <span class="item" onclick="scrollToSection('sec-tiktok')">📱 تیک‌تاک</span>
-            <span class="item" onclick="scrollToSection('sec-other')">📌 سایر</span>
         </div>
 
         <!-- جستجو -->
@@ -374,11 +465,10 @@
                 <span class="arrow">▼</span>
             </div>
             <div class="section-content">
-                <div class="cmd"><span class="cmd-text">فعال</span><span class="cmd-desc">فعال‌سازی ربات در گروه</span><span class="cmd-example">فعال</span></div>
                 <div class="cmd"><span class="cmd-text">راهنما</span><span class="cmd-desc">نمایش لینک راهنمای کامل</span><span class="cmd-example">راهنما</span></div>
                 <div class="cmd"><span class="cmd-text">موجودی</span><span class="cmd-desc">مشاهده پروفایل و موجودی خود</span><span class="cmd-example">موجودی</span></div>
-                <div class="cmd"><span class="cmd-text">لقب [نام]</span><span class="cmd-desc">تنظیم لقب برای خود (۳ تا ۲۰ کاراکتر)</span><span class="cmd-example">لقب سهراب</span></div>
-                <div class="cmd"><span class="cmd-text">موجودی @لقب</span><span class="cmd-desc">مشاهده پروفایل کاربر دیگر</span><span class="cmd-example">موجودی @سهراب</span></div>
+                <div class="cmd"><span class="cmd-text">لقب [نام]</span><span class="cmd-desc">تنظیم لقب برای خود (۳ تا ۲۰ کاراکتر)</span><span class="cmd-example">لقب <span class="highlight">لقب</span></span></div>
+                <div class="cmd"><span class="cmd-text">موجودی @لقب</span><span class="cmd-desc">مشاهده پروفایل کاربر دیگر</span><span class="cmd-example">موجودی @<span class="highlight">لقب</span></span></div>
                 <div class="note"><strong>💡 نکته:</strong> همه دستورات در پی‌وی ربات و گروه‌های فعال قابل استفاده هستند.</div>
             </div>
         </div>
@@ -397,14 +487,15 @@
             </div>
             <div class="section-content">
                 <div class="cmd"><span class="cmd-text">گردونه</span><span class="cmd-desc">چرخاندن گردونه شانس (روزانه ۱ بار)</span><span class="cmd-example">گردونه</span></div>
-                <div class="cmd"><span class="cmd-text">انتقال [مبلغ] @لقب</span><span class="cmd-desc">انتقال کوین به کاربر دیگر</span><span class="cmd-example">انتقال ۱۰۰۰۰۰ @سهراب</span></div>
-                <div class="cmd"><span class="cmd-text">انتقال الماس [تعداد] @لقب</span><span class="cmd-desc">انتقال الماس به کاربر دیگر</span><span class="cmd-example">انتقال الماس ۵ @سهراب</span></div>
-                <div class="cmd"><span class="cmd-text">انتقال ماینر [تعداد] @لقب</span><span class="cmd-desc">انتقال ماینر به کاربر دیگر</span><span class="cmd-example">انتقال ماینر ۱۰ @سهراب</span></div>
+                <div class="cmd"><span class="cmd-text">انتقال [مبلغ] @لقب</span><span class="cmd-desc">انتقال کوین به کاربر دیگر</span><span class="cmd-example">انتقال ۱۰۰۰۰۰ @<span class="highlight">لقب</span></span></div>
+                <div class="cmd"><span class="cmd-text">انتقال الماس [تعداد] @لقب</span><span class="cmd-desc">انتقال الماس به کاربر دیگر</span><span class="cmd-example">انتقال الماس ۵ @<span class="highlight">لقب</span></span></div>
+                <div class="cmd"><span class="cmd-text">انتقال ماینر [تعداد] @لقب</span><span class="cmd-desc">انتقال ماینر به کاربر دیگر</span><span class="cmd-example">انتقال ماینر ۱۰ @<span class="highlight">لقب</span></span></div>
                 <div class="cmd"><span class="cmd-text">واریز [مبلغ]</span><span class="cmd-desc">واریز کوین به بانک</span><span class="cmd-example">واریز ۵۰۰۰۰۰</span></div>
                 <div class="cmd"><span class="cmd-text">برداشت [مبلغ]</span><span class="cmd-desc">برداشت کوین از بانک</span><span class="cmd-example">برداشت ۱۰۰۰۰۰۰</span></div>
                 <div class="cmd"><span class="cmd-text">الماس</span><span class="cmd-desc">مشاهده قیمت الماس و موجودی</span><span class="cmd-example">الماس</span></div>
                 <div class="cmd"><span class="cmd-text">خرید الماس [تعداد]</span><span class="cmd-desc">خرید الماس با کوین</span><span class="cmd-example">خرید الماس ۱۰۰</span></div>
                 <div class="cmd"><span class="cmd-text">فروش الماس [تعداد]</span><span class="cmd-desc">فروش الماس و دریافت کوین</span><span class="cmd-example">فروش الماس ۵۰</span></div>
+                <div class="cmd"><span class="cmd-text">بانک</span><span class="cmd-desc">مشاهده موجودی بانک</span><span class="cmd-example">بانک</span></div>
                 <div class="note"><strong>📊 نکته:</strong> قیمت الماس هر ۱ ساعت تغییر می‌کند. سود بانک روزانه ۱۰٪ است.</div>
             </div>
         </div>
@@ -474,40 +565,32 @@
             </div>
             <div class="section-content">
                 <div class="cmd"><span class="cmd-text">ماشین ها</span><span class="cmd-desc">لیست ماشین‌های قابل خرید</span><span class="cmd-example">ماشین ها</span></div>
-                <div class="cmd"><span class="cmd-text">خرید ماشین [نام]</span><span class="cmd-desc">خرید ماشین</span><span class="cmd-example">خرید ماشین دوج چلنجر</span></div>
-                <div class="cmd"><span class="cmd-text">خانه ها / گوشی ها / موتور ها / قایق ها / هواپیما ها</span><span class="cmd-desc">لیست وسایل قابل خرید</span><span class="cmd-example">گوشی ها</span></div>
+                <div class="cmd"><span class="cmd-text">خرید ماشین [نام]</span><span class="cmd-desc">خرید ماشین</span><span class="cmd-example">خرید ماشین <span class="highlight">دوج چلنجر</span></span></div>
+                <div class="cmd"><span class="cmd-text">خانه ها</span><span class="cmd-desc">لیست خانه‌های قابل خرید</span><span class="cmd-example">خانه ها</span></div>
+                <div class="cmd"><span class="cmd-text">خرید خانه [نام]</span><span class="cmd-desc">خرید خانه</span><span class="cmd-example">خرید خانه <span class="highlight">ویلایی</span></span></div>
+                <div class="cmd"><span class="cmd-text">گوشی ها</span><span class="cmd-desc">لیست گوشی‌های قابل خرید</span><span class="cmd-example">گوشی ها</span></div>
+                <div class="cmd"><span class="cmd-text">خرید گوشی [نام]</span><span class="cmd-desc">خرید گوشی</span><span class="cmd-example">خرید گوشی <span class="highlight">آیفون ۱۴</span></span></div>
+                <div class="cmd"><span class="cmd-text">موتور ها</span><span class="cmd-desc">لیست موتورهای قابل خرید</span><span class="cmd-example">موتور ها</span></div>
+                <div class="cmd"><span class="cmd-text">خرید موتور [نام]</span><span class="cmd-desc">خرید موتور</span><span class="cmd-example">خرید موتور <span class="highlight">نینجا</span></span></div>
+                <div class="cmd"><span class="cmd-text">قایق ها</span><span class="cmd-desc">لیست قایق‌های قابل خرید</span><span class="cmd-example">قایق ها</span></div>
+                <div class="cmd"><span class="cmd-text">خرید قایق [نام]</span><span class="cmd-desc">خرید قایق</span><span class="cmd-example">خرید قایق <span class="highlight">قایق تفریحی</span></span></div>
+                <div class="cmd"><span class="cmd-text">هواپیما ها</span><span class="cmd-desc">لیست هواپیماهای قابل خرید</span><span class="cmd-example">هواپیما ها</span></div>
+                <div class="cmd"><span class="cmd-text">خرید هواپیما [نام]</span><span class="cmd-desc">خرید هواپیما</span><span class="cmd-example">خرید هواپیما <span class="highlight">جت شخصی</span></span></div>
                 <div class="cmd"><span class="cmd-text">وسایل من</span><span class="cmd-desc">مشاهده تمام وسایل خریداری شده</span><span class="cmd-example">وسایل من</span></div>
-                <div class="cmd"><span class="cmd-text">فروش [نوع] [نام] [قیمت]</span><span class="cmd-desc">قرار دادن وسیله در بازار</span><span class="cmd-example">فروش ماشین دوج چلنجر ۴۰۰۰۰۰۰۰۰</span></div>
+                <div class="cmd"><span class="cmd-text">فروش [نوع] [نام] [قیمت]</span><span class="cmd-desc">قرار دادن وسیله در بازار</span><span class="cmd-example">فروش ماشین <span class="highlight">دوج چلنجر</span> ۴۰۰۰۰۰۰۰۰</span></div>
                 <div class="cmd"><span class="cmd-text">بازار</span><span class="cmd-desc">مشاهده وسایل فروشی</span><span class="cmd-example">بازار</span></div>
                 <div class="cmd"><span class="cmd-text">خرید [کد]</span><span class="cmd-desc">خرید از بازار با کد آگهی</span><span class="cmd-example">خرید ۱۲</span></div>
                 <div class="cmd"><span class="cmd-text">فروش من</span><span class="cmd-desc">مشاهده آگهی‌های خود</span><span class="cmd-example">فروش من</span></div>
                 <div class="cmd"><span class="cmd-text">حذف [کد]</span><span class="cmd-desc">حذف آگهی خود از بازار</span><span class="cmd-example">حذف ۱۲</span></div>
-                <div class="note"><strong>💡 نکته:</strong> با خرید گوشی می‌توانید در تیک‌تاک فعالیت کنید.</div>
-            </div>
-        </div>
-
-        <!-- ۶. شغل -->
-        <div class="section" id="sec-job">
-            <div class="section-header" onclick="toggleSection(this)">
-                <div class="left">
-                    <div class="icon">💼</div>
-                    <div>
-                        <div class="title">شغل‌ها</div>
-                        <div class="subtitle">درآمد روزانه</div>
-                    </div>
-                </div>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="section-content">
                 <div class="cmd"><span class="cmd-text">شغل ها</span><span class="cmd-desc">لیست مشاغل و حقوق آنها</span><span class="cmd-example">شغل ها</span></div>
-                <div class="cmd"><span class="cmd-text">درخواست شغل [نام]</span><span class="cmd-desc">خرید شغل</span><span class="cmd-example">درخواست شغل مهندس</span></div>
-                <div class="cmd"><span class="cmd-text">عوض شغل [نام]</span><span class="cmd-desc">تغییر شغل فعلی</span><span class="cmd-example">عوض شغل هکر</span></div>
+                <div class="cmd"><span class="cmd-text">درخواست شغل [نام]</span><span class="cmd-desc">خرید شغل</span><span class="cmd-example">درخواست شغل <span class="highlight">مهندس</span></span></div>
+                <div class="cmd"><span class="cmd-text">عوض شغل [نام]</span><span class="cmd-desc">تغییر شغل فعلی</span><span class="cmd-example">عوض شغل <span class="highlight">هکر</span></span></div>
                 <div class="cmd"><span class="cmd-text">حقوق بگیر</span><span class="cmd-desc">دریافت حقوق روزانه</span><span class="cmd-example">حقوق بگیر</span></div>
-                <div class="note"><strong>⏰ نکته:</strong> حقوق هر ۲۴ ساعت یک بار قابل دریافت است.</div>
+                <div class="note"><strong>💡 نکته:</strong> با خرید گوشی می‌توانید در تیک‌تاک فعالیت کنید. حقوق هر ۲۴ ساعت یک بار قابل دریافت است.</div>
             </div>
         </div>
 
-        <!-- ۷. اتحادیه -->
+        <!-- ۶. اتحادیه -->
         <div class="section" id="sec-alliance">
             <div class="section-header" onclick="toggleSection(this)">
                 <div class="left">
@@ -520,25 +603,26 @@
                 <span class="arrow">▼</span>
             </div>
             <div class="section-content">
-                <div class="cmd"><span class="cmd-text">ساخت اتحاد [نام]</span><span class="cmd-desc">ساخت اتحادیه (هزینه ۲۰۰ میلیون)</span><span class="cmd-example">ساخت اتحاد قهرمانان</span></div>
+                <div class="cmd"><span class="cmd-text">ساخت اتحاد [نام]</span><span class="cmd-desc">ساخت اتحادیه (هزینه ۲۰۰ میلیون)</span><span class="cmd-example">ساخت اتحاد <span class="highlight">کهکشان</span></span></div>
                 <div class="cmd"><span class="cmd-text">لیست اتحادیه</span><span class="cmd-desc">مشاهده تمام اتحادیه‌ها</span><span class="cmd-example">لیست اتحادیه</span></div>
-                <div class="cmd"><span class="cmd-text">عضویت در اتحاد [کد]</span><span class="cmd-desc">درخواست عضویت</span><span class="cmd-example">عضویت در اتحاد ABC123</span></div>
+                <div class="cmd"><span class="cmd-text">عضویت در اتحاد [کد]</span><span class="cmd-desc">درخواست عضویت</span><span class="cmd-example">عضویت در اتحاد <span class="highlight">ABC123</span></span></div>
                 <div class="cmd"><span class="cmd-text">لیست درخواست</span><span class="cmd-desc">مشاهده درخواست‌های عضویت (لیدر/معاون)</span><span class="cmd-example">لیست درخواست</span></div>
-                <div class="cmd"><span class="cmd-text">تایید درخواست @لقب</span><span class="cmd-desc">تایید عضویت (لیدر/معاون)</span><span class="cmd-example">تایید درخواست @سهراب</span></div>
-                <div class="cmd"><span class="cmd-text">ارتقا معاون @لقب</span><span class="cmd-desc">انتخاب معاون (فقط لیدر)</span><span class="cmd-example">ارتقا معاون @سهراب</span></div>
+                <div class="cmd"><span class="cmd-text">تایید درخواست @لقب</span><span class="cmd-desc">تایید عضویت (لیدر/معاون)</span><span class="cmd-example">تایید درخواست @<span class="highlight">لقب</span></span></div>
+                <div class="cmd"><span class="cmd-text">ارتقا معاون @لقب</span><span class="cmd-desc">انتخاب معاون (فقط لیدر)</span><span class="cmd-example">ارتقا معاون @<span class="highlight">لقب</span></span></div>
                 <div class="cmd"><span class="cmd-text">ارتقا اتحاد [سطح]</span><span class="cmd-desc">ارتقا سطح اتحادیه (تا ۱۰)</span><span class="cmd-example">ارتقا اتحاد ۳</span></div>
                 <div class="cmd"><span class="cmd-text">ارتقا اتحاد از خزانه [سطح]</span><span class="cmd-desc">ارتقا با هزینه از خزانه</span><span class="cmd-example">ارتقا اتحاد از خزانه ۳</span></div>
                 <div class="cmd"><span class="cmd-text">واریز به خزانه [مبلغ]</span><span class="cmd-desc">واریز کوین به خزانه</span><span class="cmd-example">واریز به خزانه ۵۰۰۰۰۰</span></div>
-                <div class="cmd"><span class="cmd-text">خرید مهمات [نام] [تعداد]</span><span class="cmd-desc">خرید موشک یا بمب برای حمله</span><span class="cmd-example">خرید مهمات موشک بالستیک ۱۰</span></div>
-                <div class="cmd"><span class="cmd-text">حمله به [کد]</span><span class="cmd-desc">حمله به اتحادیه دیگر (لیدر/معاون)</span><span class="cmd-example">حمله به XYZ789</span></div>
+                <div class="cmd"><span class="cmd-text">خرید مهمات [نام] [تعداد]</span><span class="cmd-desc">خرید موشک یا بمب برای حمله</span><span class="cmd-example">خرید مهمات <span class="highlight">موشک بالستیک</span> ۱۰</span></div>
+                <div class="cmd"><span class="cmd-text">حمله به [کد]</span><span class="cmd-desc">حمله به اتحادیه دیگر (لیدر/معاون)</span><span class="cmd-example">حمله به <span class="highlight">XYZ789</span></span></div>
                 <div class="cmd"><span class="cmd-text">بازیابی [درصد]</span><span class="cmd-desc">بازیابی سلامت اتحادیه (۱٪ = ۵ میلیون)</span><span class="cmd-example">بازیابی ۲۰</span></div>
-                <div class="cmd"><span class="cmd-text">اطلاعات اتحاد [کد]</span><span class="cmd-desc">مشاهده اطلاعات کامل اتحادیه</span><span class="cmd-example">اطلاعات اتحاد ABC123</span></div>
+                <div class="cmd"><span class="cmd-text">اطلاعات اتحاد [کد]</span><span class="cmd-desc">مشاهده اطلاعات کامل اتحادیه</span><span class="cmd-example">اطلاعات اتحاد <span class="highlight">ABC123</span></span></div>
                 <div class="cmd"><span class="cmd-text">خزانه اتحادیه</span><span class="cmd-desc">مشاهده موجودی خزانه</span><span class="cmd-example">خزانه اتحادیه</span></div>
+                <div class="cmd"><span class="cmd-text">تغییر نام اتحاد [نام]</span><span class="cmd-desc">تغییر نام اتحادیه (هزینه ۱۰۰ میلیون)</span><span class="cmd-example">تغییر نام اتحاد <span class="highlight">کهکشان جدید</span></span></div>
                 <div class="note"><strong>⚔️ نکته:</strong> هر سطح اتحادیه ظرفیت ۵ عضو اضافه می‌کند. قدرت حمله = موشک×۵ + بمب×۱۰۰</div>
             </div>
         </div>
 
-        <!-- ۸. بتل‌پس -->
+        <!-- ۷. بتل‌پس -->
         <div class="section" id="sec-battlepass">
             <div class="section-header" onclick="toggleSection(this)">
                 <div class="left">
@@ -556,12 +640,12 @@
                 <div class="cmd"><span class="cmd-text">دریافت جایزه [سطح]</span><span class="cmd-desc">دریافت جایزه یک سطح (فقط زوج)</span><span class="cmd-example">دریافت جایزه ۱۰</span></div>
                 <div class="cmd"><span class="cmd-text">دریافت همه</span><span class="cmd-desc">دریافت تمام جوایز قابل دریافت</span><span class="cmd-example">دریافت همه</span></div>
                 <div class="cmd"><span class="cmd-text">ماموریت ها</span><span class="cmd-desc">مشاهده ماموریت‌ها و XP هر کدام</span><span class="cmd-example">ماموریت ها</span></div>
-                <div class="cmd"><span class="cmd-text">ویژه [کد]</span><span class="cmd-desc">فعال‌سازی بتل‌پس پریمیوم</span><span class="cmd-example">ویژه PREMIUM123</span></div>
+                <div class="cmd"><span class="cmd-text">ویژه [کد]</span><span class="cmd-desc">فعال‌سازی بتل‌پس پریمیوم</span><span class="cmd-example">ویژه <span class="highlight">PREMIUM123</span></span></div>
                 <div class="note"><strong>🎁 نکته:</strong> سطوح زوج جایزه دارند. پریمیوم جوایز ۲ برابری دارد.</div>
             </div>
         </div>
 
-        <!-- ۹. تیک‌تاک -->
+        <!-- ۸. تیک‌تاک -->
         <div class="section" id="sec-tiktok">
             <div class="section-header" onclick="toggleSection(this)">
                 <div class="left">
@@ -575,47 +659,20 @@
             </div>
             <div class="section-content">
                 <div class="cmd"><span class="cmd-text">لیست نت ها</span><span class="cmd-desc">مشاهده بسته‌های اینترنت</span><span class="cmd-example">لیست نت ها</span></div>
-                <div class="cmd"><span class="cmd-text">خرید نت [حجم]</span><span class="cmd-desc">خرید اینترنت برای تیک‌تاک</span><span class="cmd-example">خرید نت ۵ گیگ</span></div>
-                <div class="cmd"><span class="cmd-text">ساخت کانال تیک تاک [نام]</span><span class="cmd-desc">ساخت کانال (نیاز به گوشی)</span><span class="cmd-example">ساخت کانال تیک تاک my_channel</span></div>
-                <div class="cmd"><span class="cmd-text">تغییر اسم تیک تاک [نام]</span><span class="cmd-desc">تغییر نام کانال</span><span class="cmd-example">تغییر اسم تیک تاک new_name</span></div>
-                <div class="cmd"><span class="cmd-text">پست [عنوان]</span><span class="cmd-desc">انتشار پست (هر ۲۰ دقیقه ۱ بار)</span><span class="cmd-example">پست گیم</span></div>
+                <div class="cmd"><span class="cmd-text">خرید نت [حجم]</span><span class="cmd-desc">خرید اینترنت برای تیک‌تاک</span><span class="cmd-example">خرید نت ۵ <span class="highlight">گیگ</span></span></div>
+                <div class="cmd"><span class="cmd-text">ساخت کانال تیک تاک [نام]</span><span class="cmd-desc">ساخت کانال (نیاز به گوشی)</span><span class="cmd-example">ساخت کانال تیک تاک <span class="highlight">my_channel</span></span></div>
+                <div class="cmd"><span class="cmd-text">تغییر اسم تیک تاک [نام]</span><span class="cmd-desc">تغییر نام کانال</span><span class="cmd-example">تغییر اسم تیک تاک <span class="highlight">new_name</span></span></div>
+                <div class="cmd"><span class="cmd-text">پست [عنوان]</span><span class="cmd-desc">انتشار پست (هر ۲۰ دقیقه ۱ بار)</span><span class="cmd-example">پست <span class="highlight">گیم</span></span></div>
                 <div class="cmd"><span class="cmd-text">آمار تیک تاک</span><span class="cmd-desc">مشاهده آمار کانال و پست‌ها</span><span class="cmd-example">آمار تیک تاک</span></div>
                 <div class="cmd"><span class="cmd-text">آمار نت</span><span class="cmd-desc">مشاهده وضعیت اینترنت</span><span class="cmd-example">آمار نت</span></div>
                 <div class="note"><strong>📡 نکته:</strong> عناوین موجود: ورزش، گیم، فیلم، آموزش ادیت. هرچه پست بیشتر، فالوور و درآمد بیشتر.</div>
             </div>
         </div>
 
-        <!-- ۱۰. سایر -->
-        <div class="section" id="sec-other">
-            <div class="section-header" onclick="toggleSection(this)">
-                <div class="left">
-                    <div class="icon">📌</div>
-                    <div>
-                        <div class="title">سایر دستورات</div>
-                        <div class="subtitle">کدها، رتبه‌بندی و...</div>
-                    </div>
-                </div>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="section-content">
-                <div class="cmd"><span class="cmd-text">کد [کد]</span><span class="cmd-desc">استفاده از کد هدیه</span><span class="cmd-example">کد GIFT1234</span></div>
-                <div class="cmd"><span class="cmd-text">کد معرف</span><span class="cmd-desc">مشاهده کد معرف خود</span><span class="cmd-example">کد معرف</span></div>
-                <div class="cmd"><span class="cmd-text">معرف [کد]</span><span class="cmd-desc">استفاده از کد معرف (پاداش ۱ میلیون)</span><span class="cmd-example">معرف ۱۲۳۴۵۶</span></div>
-                <div class="cmd"><span class="cmd-text">پولداران</span><span class="cmd-desc">لیست ۱۰ ثروتمند برتر</span><span class="cmd-example">پولداران</span></div>
-                <div class="cmd"><span class="cmd-text">ماینر داران</span><span class="cmd-desc">لیست ۱۰ ماینردار برتر</span><span class="cmd-example">ماینر داران</span></div>
-                <div class="cmd"><span class="cmd-text">الماس داران</span><span class="cmd-desc">لیست ۱۰ الماس‌دار برتر</span><span class="cmd-example">الماس داران</span></div>
-                <div class="cmd"><span class="cmd-text">برترین دعوت کنندگان</span><span class="cmd-desc">لیست ۱۰ برترین دعوت‌کننده‌ها</span><span class="cmd-example">برترین دعوت کنندگان</span></div>
-                <div class="cmd"><span class="cmd-text">برترین بردها</span><span class="cmd-desc">لیست ۱۰ برترین برندگان بازی</span><span class="cmd-example">برترین بردها</span></div>
-                <div class="cmd"><span class="cmd-text">شاپ</span><span class="cmd-desc">مشاهده پکیج‌های فروش ویژه</span><span class="cmd-example">شاپ</span></div>
-                <div class="cmd"><span class="cmd-text">سازنده [کد]</span><span class="cmd-desc">فعال‌سازی کد بینهایت</span><span class="cmd-example">سازنده INFINITY</span></div>
-                <div class="cmd"><span class="cmd-text">بانک</span><span class="cmd-desc">مشاهده موجودی بانک</span><span class="cmd-example">بانک</span></div>
-            </div>
-        </div>
-
         <!-- فوتر -->
         <div class="footer">
-            <p>🎮 ربات GameDrama | <a href="https://rubika.ir/GameDrama" target="_blank">@GameDrama</a></p>
-            <p>کانال: <a href="https://rubika.ir/Alpha_Bots" target="_blank">@Alpha_Bots</a> | سازنده: <a href="https://rubika.ir/HI_IM_SUHO" target="_blank">@HI_IM_SUHO</a></p>
+            <p>🌌 ربات GameDrama | <a href="https://rubika.ir/GameDrama_Bot" target="_blank">@GameDrama_Bot</a></p>
+            <p>📢 کانال: <a href="https://rubika.ir/GameDrama_Bots" target="_blank">@GameDrama_Bots</a></p>
         </div>
 
     </div>
@@ -624,17 +681,11 @@
     <div class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆</div>
 
     <script>
-        // ==============================
-        //  باز/بسته کردن بخش‌ها
-        // ==============================
         function toggleSection(headerElement) {
             const section = headerElement.closest('.section');
             section.classList.toggle('active');
         }
 
-        // ==============================
-        //  اسکرول به بخش با id
-        // ==============================
         function scrollToSection(id) {
             const el = document.getElementById(id);
             if (el) {
@@ -643,9 +694,6 @@
             }
         }
 
-        // ==============================
-        //  جستجو
-        // ==============================
         function searchHelp() {
             const query = document.getElementById('searchInput').value.trim().toLowerCase();
             const sections = document.querySelectorAll('.section');
@@ -662,9 +710,6 @@
             });
         }
 
-        // ==============================
-        //  دکمه بازگشت به بالا
-        // ==============================
         window.addEventListener('scroll', () => {
             const btn = document.getElementById('backTop');
             if (window.scrollY > 400) {
@@ -674,7 +719,7 @@
             }
         });
 
-        console.log('🎮 راهنمای GameDrama بارگذاری شد!');
+        console.log('🌌 راهنمای GameDrama بارگذاری شد!');
     </script>
 </body>
-</html>
+    </html>
